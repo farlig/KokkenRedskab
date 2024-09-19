@@ -42,7 +42,7 @@ while (true) //loop kører for evigt
         }
         else if (valgtIndex == 0) //første menumulighed
         {
-            string opskrifterPath = @"C:\Users\anton\Desktop\skole\programmering\projekt_1\opskrifter"; //definerer placering for folder med opskrifter. SKIFT DENNE FILSTI TIL PLACERINGEN AF JERES CSV FILER
+            string opskrifterPath = @"C:\Users\User\Desktop\skole\programmering\projekt_1\opskrifter"; //definerer placering for folder med opskrifter. SKIFT DENNE FILSTI TIL PLACERINGEN AF JERES CSV FILER
             List<string> opskriftListe = Directory.GetFiles(opskrifterPath).ToList(); //laver en liste med alle filer i den tidligere nævnte folder
             opskriftListe.Add("Tilbage");
 
