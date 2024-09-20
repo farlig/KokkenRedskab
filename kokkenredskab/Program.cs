@@ -1,6 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -42,7 +43,7 @@ while (true) //loop kører for evigt
         }
         else if (valgtIndex == 0) //første menumulighed
         {
-            string opskrifterPath = @"C:\Users\User\Desktop\skole\programmering\projekt_1\opskrifter"; //definerer placering for folder med opskrifter. SKIFT DENNE FILSTI TIL PLACERINGEN AF JERES CSV FILER
+            string opskrifterPath = @"C:\Users\Anton\Desktop\skole\programmering\projekt_1\opskrifter"; //definerer placering for folder med opskrifter. SKIFT DENNE FILSTI TIL PLACERINGEN AF JERES CSV/OPSKRIFT FILER
             List<string> opskriftListe = Directory.GetFiles(opskrifterPath).ToList(); //laver en liste med alle filer i den tidligere nævnte folder
             opskriftListe.Add("Tilbage");
 
@@ -111,7 +112,7 @@ while (true) //loop kører for evigt
                                 omdannet = true;
                             }
                             else
-                            { 
+                            {
                                 Console.WriteLine("Du indtastede ikke et gyldigt tal, prøv igen.");
                                 Thread.Sleep(500);
                             }
@@ -136,10 +137,67 @@ while (true) //loop kører for evigt
                         }
                         Console.Write("Tryk på en knap for at gå tilbage");
                         Console.ReadKey();
-                    }    
+                    }
                 }
             }
-        }    
+        }
+        else if (valgtIndex == 2) // tredje menumulighed
+        {
+            string lager = @"C:\Users\anton\Desktop\skole\programmering\projekt_1\lager\lager.csv"; //filsti for lagerfilen
+            string[] lagerLinjerTemp = File.ReadAllLines(lager);
+            List<String> lagerLinjer = lagerLinjerTemp.ToList();
+            lagerLinjer.Add("Tilbage");
+            int lagerIndex = 0;
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("The Holy Lagerstyring");
+                Console.WriteLine();
+                for (int i = 0; i < lagerLinjer.Count; i++) //giver alternativ baggrundsfarve til den valgte mulighed
+                {
+                    if (i == lagerIndex)
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    string formatLager = lagerLinjer[i].Replace('.', ' ');
+                    Console.WriteLine(formatLager);
+                }
+                Console.ResetColor();
+
+                var lagerKey = Console.ReadKey(true);
+
+                if (lagerKey.Key == ConsoleKey.UpArrow) //scroll op og ned i menu med arrow keys og vælg mulighed med enter
+                {
+                    lagerIndex = (lagerIndex - 1 + lagerLinjer.Count) % lagerLinjer.Count;
+                }
+                else if (lagerKey.Key == ConsoleKey.DownArrow)
+                {
+                    lagerIndex = (lagerIndex + 1) % lagerLinjer.Count;
+                }
+                else if (lagerKey.Key == ConsoleKey.Enter)
+                {
+                    if (lagerIndex == lagerLinjer.Count - 1) //tilbage knap
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        string formatLager = lagerLinjer[lagerIndex].Replace(".", " ");
+                        Console.Clear();
+                        Console.Write(formatLager);
+                        Console.ReadKey();
+                    }
+                }
+            }
+        }
         else
         {
             Console.Clear();
